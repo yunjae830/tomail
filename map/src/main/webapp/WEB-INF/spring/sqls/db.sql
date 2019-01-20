@@ -7,6 +7,7 @@ CREATE TABLE members
     members_seq        INT             NOT NULL, 
     members_name       VARCHAR2(20)    NOT NULL, 
    	members_email      VARCHAR2(20)    NOT NULL,
-    members_pw         VARCHAR2(20)    NOT NULL, 
+    members_pw         VARCHAR2(20)    NOT NULL,
+    members_EmailChecked    VARCHAR2(5),
     CONSTRAINT MEMBERS_PK PRIMARY KEY (members_seq)
 );
