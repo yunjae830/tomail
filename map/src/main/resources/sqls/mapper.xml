@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<insert id="joinInsert" parameterType="joinVO">
+		INSERT INTO MEMBERS VALUES(members_SEQ.nextval, #{members_name}, #{members_email}, #{members_pw},'false')
+	</insert>
+	<select id="loginSelect" parameterType="String" resultType="String">
+		SELECT members_pw FROM MEMBERS WHERE MEMBERS_EMAIL = #{members_email}
+	</select>
+	<select id="joincheck" parameterType="String" resultType="String">
+		SELECT members_email FROM MEMBERS WHERE MEMBERS_EMAIL = #{members_email}
+	</select>
+	<select id="pass_ck" parameterType="String" resultType="String">
+		SELECT members_email FROM MEMBERS WHERE MEMBERS_EMAIL = #{members_email}
+	</select>
+	<update id="pass_ck_complate" parameterType="String">
+		UPDATE MEMBERS SET members_EmailChecked = 'true' WHERE MEMBERS_EMAIL = #{members_email}
+	</update>
+	<update id="pass_change" parameterType="joinVO">
+		UPDATE MEMBERS SET members_pw = #{members_pw} WHERE members_email = #{members_email}
+	</update>
+	<select id="mail_check" parameterType="String" resultType="String">
+		SELECT members_EmailChecked FROM MEMBERS WHERE MEMBERS_EMAIL = #{members_email}
+	</select>
+</mapper>
