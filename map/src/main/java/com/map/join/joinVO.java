@@ -6,6 +6,7 @@ public class joinVO {
 	private String members_name;
 	private String members_pw;
 	private int login_check;
+	private int test;
 	
 	
 	public int getLogin_check() {
