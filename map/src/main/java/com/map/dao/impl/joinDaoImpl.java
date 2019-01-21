@@ -1,10 +1,11 @@
-package com.map.joinDao;
+package com.map.dao.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.map.join.joinVO;
+import com.map.dao.joinDao;
+import com.map.domain.joinVO;
 
 @Repository
 public class joinDaoImpl implements joinDao {
@@ -31,9 +32,9 @@ public class joinDaoImpl implements joinDao {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("µðºñ ºñ¹ø°ª: "+select_pw+"\t ³»°¡º¸³½ ºñ¹ø°ª : " + pw);
+		System.out.println("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½: "+select_pw+"\t ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ : " + pw);
 		if(pw.equals(select_pw)) {
-			System.out.println("¼º°ø");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½");
 			return 1;
 		}else {
 			return 0;
@@ -50,9 +51,9 @@ public class joinDaoImpl implements joinDao {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("µðºñ ÀÌ¸ÞÀÏ °ª: "+select_email+"\t ³»°¡º¸³½ ÀÌ¸ÞÀÏ °ª : " + email);
+		System.out.println("ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½: "+select_email+"\t ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ : " + email);
 		if(email.equals(select_email)) {
-			System.out.println("Áßº¹");
+			System.out.println("ï¿½ßºï¿½");
 			return 0;
 		}else {
 			return 1;
@@ -69,9 +70,9 @@ public class joinDaoImpl implements joinDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("µðºñ ÀÌ¸ÞÀÏ °ª : " + seach_email + "\t ³»°¡º¸³½ ÀÌ¸ÞÀÏ °ª : " + email);
+		System.out.println("ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ : " + seach_email + "\t ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ : " + email);
 		if(email.equals(seach_email)) {
-			System.out.println("Á¸Àç");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½");
 			return 1;
 		}else {
 			return 0;
@@ -86,7 +87,7 @@ public class joinDaoImpl implements joinDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("³»°¡ º¸³½ ÀÌ¸ÞÀÏ : "+ email + "\t µðºñ ¼º°ø¿©ºÎ : "+res);
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ : "+ email + "\t ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : "+res);
 	}
 
 	@Override

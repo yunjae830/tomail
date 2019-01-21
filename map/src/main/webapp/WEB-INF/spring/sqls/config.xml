@@ -3,10 +3,12 @@
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.map.join.joinVO" alias="joinVO"/>
+		<typeAlias type="com.map.domain.joinVO" alias="joinVO"/>
+		<typeAlias type="com.map.domain.BoardDto" alias="BoardDto"/>
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="/sqls/mapper.xml"/>
+		<mapper resource="/sqls/memberMapper.xml"/>
+		<mapper resource="/sqls/boardMapper.xml"/>
 	</mappers>
 </configuration>

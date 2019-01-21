@@ -1,14 +1,15 @@
-package com.map.joinBiz;
+package com.map.biz.impl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.map.join.joinVO;
-import com.map.joinDao.joinDao;
+import com.map.biz.joinBiz;
+import com.map.dao.joinDao;
+import com.map.domain.joinVO;
 @Service
 public class joinBizImpl implements joinBiz {
-	@Autowired
+	@Autowired(required=false)
 	private joinDao dao;
 	@Override
 	public int joinInsert(joinVO dto) {

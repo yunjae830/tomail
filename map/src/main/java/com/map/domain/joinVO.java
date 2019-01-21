@@ -1,4 +1,4 @@
-package com.map.join;
+package com.map.domain;
 
 public class joinVO {
 

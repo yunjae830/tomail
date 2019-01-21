@@ -1,11 +1,11 @@
-package com.map.joinDao;
+package com.map.dao;
 
 
-import com.map.join.joinVO;
+import com.map.domain.joinVO;
 
 public interface joinDao {
 
-	String namespace = "board.";
+	String namespace = "join.";
 	
 	public int joinInsert(joinVO dto);
 	public int loginSelect(String email, String pw);

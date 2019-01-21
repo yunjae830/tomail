@@ -1,4 +1,4 @@
-package com.map.board;
+package com.map.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,19 +31,24 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import com.map.Sha256.SHA256;
-import com.map.join.joinVO;
-import com.map.joinBiz.joinBiz;
+import com.map.biz.joinBiz;
+import com.map.domain.joinVO;
 
 @Controller
 public class HomeController {
-	// °ªÁÖÀÔ
-	@Autowired
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	
+	@Autowired(required=false)
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	joinBiz join;
+	
 	@RequestMapping("test.do")
 	public String test() {
 		return "test";
 	}
-	//ÁÖ¼Ò·Ï
+	//ï¿½Ö¼Ò·ï¿½
 	@RequestMapping(value="addressForm.do")
 	public String addressForm() {
 		return "address";
@@ -53,7 +58,7 @@ public class HomeController {
 		return "main";
 	}
 
-	// ·Î±×ÀÎ ¼º°ø½Ã µé¾î°¥ ¸ÞÀÎ
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½ï¿½ï¿½ï¿½
 	@RequestMapping(value = "main2.do")
 	public String main2(HttpSession session, Model model) {
 		String email = (String) session.getAttribute("email_login");
@@ -61,16 +66,16 @@ public class HomeController {
 		return "main2";
 	}
 
-	// ·Î±×¾Æ¿ô
+	// ï¿½Î±×¾Æ¿ï¿½
 	@RequestMapping(value = "logout.do")
 	public String logout(HttpSession session, HttpServletResponse response) {
 		session.setAttribute("email_login", null);
 		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+		response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		PrintWriter out = null;
 		try {
 			out = response.getWriter();
-			out.println("<script>alert('´ÙÀ½¿¡ ¶Ç ¹æ¹®ÇØÁÖ¼¼¿ä');</script>");
+			out.println("<script>alert('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½æ¹®ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½');</script>");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -86,14 +91,14 @@ public class HomeController {
 		return "mailForm";
 	}
 
-	// mailSending ÄÚµå
+	// mailSending ï¿½Úµï¿½
 	@RequestMapping(value = "mailSending.do", method = RequestMethod.POST)
 	public String mailSending(Model model, MultipartHttpServletRequest multi) {
 
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 
-		// ÆÄÀÏ°æ·Î
+		// ï¿½ï¿½ï¿½Ï°ï¿½ï¿½
 		String path = "";
 		try {
 			path = WebUtils.getRealPath(multi.getSession().getServletContext(), "/storage");
@@ -101,19 +106,19 @@ public class HomeController {
 			e1.printStackTrace();
 		}
 		System.out.println(path);
-		// ÆÄÀÏµéÀ» ListÇü½ÄÀ¸·Î º¸°ü
+		// ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ Listï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		List<MultipartFile> files = multi.getFiles("files");
 
 		File file = new File(path);
-		// ÆÄÀÏÀÌ ¾ø´Ù¸é µð·ºÅä¸®¸¦ »ý¼º
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (file.exists() == false) {
 			file.mkdirs();
 		}
-		// ¸ÞÀÏº¸³»±â±â´É
+		// ï¿½ï¿½ï¿½Ïºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		String setfrom = "jea830@hanmail.net";
-		String tomail = multi.getParameter("tomail"); // ¹Þ´Â »ç¶÷ ÀÌ¸ÞÀÏ
-		String title = multi.getParameter("title"); // Á¦¸ñ
-		String content = multi.getParameter("content"); // ³»¿ë
+		String tomail = multi.getParameter("tomail"); // ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+		String title = multi.getParameter("title"); // ï¿½ï¿½ï¿½ï¿½
+		String content = multi.getParameter("content"); // ï¿½ï¿½ï¿½ï¿½
 		File filename = null;
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -121,7 +126,7 @@ public class HomeController {
 
 			for (int i = 0; i < files.size(); i++) {
 				inputStream = files.get(i).getInputStream();
-				System.out.println(files.get(i).getOriginalFilename() + " ¾÷·Îµå");
+				System.out.println(files.get(i).getOriginalFilename() + " ï¿½ï¿½ï¿½Îµï¿½");
 				filename = new File(path + "/" + files.get(i).getOriginalFilename());
 				if (!filename.exists()) {
 					filename.createNewFile();
@@ -133,16 +138,16 @@ public class HomeController {
 				while ((read = inputStream.read(b)) != -1) {
 					outputStream.write(b, 0, read);
 				}
-				// ÆÄÀÏÃ·ºÎ
+				// ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½
 				FileSystemResource fsr = new FileSystemResource(filename);
 				messageHelper.addAttachment(MimeUtility.encodeText(files.get(i).getOriginalFilename(), "UTF-8", "B"),
 						fsr);
 			}
 
-			messageHelper.setFrom(setfrom); // º¸³»´Â»ç¶÷ »ý·«ÇÏ°Å³ª ÇÏ¸é Á¤»óÀÛµ¿À» ¾ÈÇÔ
-			messageHelper.setTo(tomail); // ¹Þ´Â»ç¶÷ ÀÌ¸ÞÀÏ
-			messageHelper.setSubject(title); // ¸ÞÀÏÁ¦¸ñÀº »ý·«ÀÌ °¡´ÉÇÏ´Ù
-			messageHelper.setText(content); // ¸ÞÀÏ ³»¿ë-
+			messageHelper.setFrom(setfrom); // ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			messageHelper.setTo(tomail); // ï¿½Þ´Â»ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+			messageHelper.setSubject(title); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+			messageHelper.setText(content); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½-
 
 			mailSender.send(message);
 		} catch (Exception e) {
@@ -160,7 +165,7 @@ public class HomeController {
 		return "suc";
 	}
 
-//--------------------	  È¸¿ø°¡ÀÔ
+//--------------------	  È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	@Autowired
 	private joinBiz biz;
 
@@ -172,47 +177,47 @@ public class HomeController {
 
 	@RequestMapping(value = "join.do", method = RequestMethod.POST)
 	public String join(joinVO dto, HttpServletResponse response, HttpSession session) throws Exception {
-		System.out.println("dto¿¡ ´ã°ÜÁø ÀÌ¸§" + dto.getMembers_name());
+		System.out.println("dtoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½" + dto.getMembers_name());
 		int join_chek = biz.joinCheck(dto.getMembers_email(), dto.getMembers_pw());
 		System.out.println("Ã¼Å©Ã¼Å© : " + join_chek);
-		System.out.println("dto¿¡ ³Ö¾îÁ³´ÂÁö È®ÀÎ" + dto.getMembers_name() + dto.getMembers_email() + dto.getMembers_pw());
-		if (join_chek == 1) {// ¸ÞÆÛ¿¡¼­ sql¹®ÀÌ ¼º°øÇÏ¸é 1À» ¹ÝÈ¯ÇÏÁö¸¸, ½ÇÆÐÇÏ¸é 0 (Áßº¹ÀÌ ¾ø¾î¾ßÇÏ±â¿¡ 0ÀÌ¸é Ã³¸®ÇÏµµ·ÏÇÔ)
-			System.out.println("°ªÁÖÀÔ°¡´É");
-			int join_insert = biz.joinInsert(dto);// jsp¿¡¼­ ¹ÞÀº°ª ÀÎ¼­Æ®
+		System.out.println("dtoï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½" + dto.getMembers_name() + dto.getMembers_email() + dto.getMembers_pw());
+		if (join_chek == 1) {// ï¿½ï¿½ï¿½Û¿ï¿½ï¿½ï¿½ sqlï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ 1ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ 0 (ï¿½ßºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±â¿¡ 0ï¿½Ì¸ï¿½ Ã³ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½)
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ô°ï¿½ï¿½ï¿½");
+			int join_insert = biz.joinInsert(dto);// jspï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¼ï¿½Æ®
 			if (join_insert == 0) {
 				response.setCharacterEncoding("UTF-8");
-				response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+				response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				PrintWriter out = null;
 				try {
 					out = response.getWriter();
-					out.println("<script>alert('°¡ÀÔÃ³¸®¿À·ù');</script>");
+					out.println("<script>alert('ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½');</script>");
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
 					out.flush();
 				}
-				return "joinform";// ½ÇÆÐ½Ã ´Ù½Ã È¸¿ø°¡ÀÔÃ¢À¸·Î
-			} else if (join_insert == 1) { // ¼º°øÇß´Ù´Â °ÍÀ» ¾Ë¸®±â À§ÇØ 1ÀÌ º¸³»Áú°ÅÀÓ
+				return "joinform";// ï¿½ï¿½ï¿½Ð½ï¿½ ï¿½Ù½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½
+			} else if (join_insert == 1) { // ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 				String to = dto.getMembers_email();
 				String host = "http://localhost:8787/board/";
 				String setfrom = "jea830@hanmail.net";
-				String tomail = dto.getMembers_email(); // ¹Þ´Â »ç¶÷ ÀÌ¸ÞÀÏ
-				String title = "[Åõ¸ÞÀÏ] ¾È³çÇÏ¼¼¿ä ÀÎÁõ¸ÞÀÏÀÌ µµÂøÇß¾î¿ä!"; // Á¦¸ñ
-				String content = "´ÙÀ½ ¸µÅ©¿¡ Á¢¼ÓÇÏ¿© ÀÌ¸ÞÀÏ È®ÀÎÀ» ÁøÇàÇÏ¼¼¿ä." + "<a href='" + host + "join_email_complate.do?join_code="
-						+ new SHA256().getSHA256(to) + "'>ÀÌ¸ÞÀÏ ÀÎÁõÇÏ±â</a>"; // ³»¿ë
-				messageHelper.setFrom(setfrom); // º¸³»´Â»ç¶÷ »ý·«ÇÏ°Å³ª ÇÏ¸é Á¤»óÀÛµ¿À» ¾ÈÇÔ
-				messageHelper.setTo(tomail); // ¹Þ´Â»ç¶÷ ÀÌ¸ÞÀÏ
-				messageHelper.setSubject(title); // ¸ÞÀÏÁ¦¸ñÀº »ý·«ÀÌ °¡´ÉÇÏ´Ù
-				messageHelper.setText(content, true); // htmlÀÌ¶ó´Â ÀÇ¹Ì·Î true¸¦ ½áÁØ´Ù.
+				String tomail = dto.getMembers_email(); // ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+				String title = "[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½] ï¿½È³ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß¾ï¿½ï¿½!"; // ï¿½ï¿½ï¿½ï¿½
+				String content = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½." + "<a href='" + host + "join_email_complate.do?join_code="
+						+ new SHA256().getSHA256(to) + "'>ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½</a>"; // ï¿½ï¿½ï¿½ï¿½
+				messageHelper.setFrom(setfrom); // ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				messageHelper.setTo(tomail); // ï¿½Þ´Â»ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+				messageHelper.setSubject(title); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+				messageHelper.setText(content, true); // htmlï¿½Ì¶ï¿½ï¿½ ï¿½Ç¹Ì·ï¿½ trueï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 				mailSender.send(message);
 				response.setCharacterEncoding("UTF-8");
-				response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+				response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				PrintWriter out_p = null;
 				try {
 					out_p = response.getWriter();
-					out_p.println("<script>alert('ÀÎÁõ ¸ÞÀÏÀ» º¸³Â¾î¿ä!');</script>");
+					out_p.println("<script>alert('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¾ï¿½ï¿½!');</script>");
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
@@ -221,14 +226,14 @@ public class HomeController {
 				session.setAttribute("join_email", to);
 				return "main";
 			}
-		} else if (join_chek == 0) {// Áßº¹¿¡·¯
-			System.out.println("Áßº¹µÆ¾î¿ä!!!");
+		} else if (join_chek == 0) {// ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½
+			System.out.println("ï¿½ßºï¿½ï¿½Æ¾ï¿½ï¿½!!!");
 			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+			response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			PrintWriter out = null;
 			try {
 				out = response.getWriter();
-				out.println("<script>alert('ÀÌ¹Ì °¡ÀÔÇÏ½Å Á¤º¸ÀÔ´Ï´Ù');</script>");
+				out.println("<script>alert('ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½');</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -249,11 +254,11 @@ public class HomeController {
 			boolean rightCode = (new SHA256().getSHA256(session_mail).equals(code)) ? true : false;
 			if (rightCode == true) {
 				response.setCharacterEncoding("UTF-8");
-				response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+				response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				PrintWriter out = null;
 				try {
 					out = response.getWriter();
-					out.println("<script>alert('ÀÎÁõÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.');</script>");
+					out.println("<script>alert('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.');</script>");
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {
@@ -268,10 +273,10 @@ public class HomeController {
 		} finally {
 			session.setAttribute("join_email", null);
 		}
-		return "error"; // Àý´ë Àß¸øµÈ ÄÚµå°¡ ¿ÃÀÏÀÌ ¾øÁö¸¸.. ¸¸¾à Àß¸ø¿Â´Ù¸é ¿¡·¯Ã¢À» ¶ç¿ì°Ô ÇØÁØ´Ù.
+		return "error"; // ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Úµå°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Â´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 	}
 
-	// ---------------------·Î±×ÀÎ
+	// ---------------------ï¿½Î±ï¿½ï¿½ï¿½
 	@RequestMapping(value = "loginform.do")
 	public String loginform() {
 		return "login";
@@ -280,18 +285,18 @@ public class HomeController {
 	@RequestMapping(value = "login.do")
 	public @ResponseBody HashMap<String, Object> login(@RequestBody joinVO dto, HttpSession session) throws Exception {
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
-		System.out.println("·Î±×ÀÎ À¯Áö Ã¼Å© ¿©ºÎ" + dto.getLogin_check());
-		System.out.println("³»°¡º¸³½ ºñ¹ø°ª : " + dto.getMembers_pw());
+		System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å© ï¿½ï¿½ï¿½ï¿½" + dto.getLogin_check());
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ : " + dto.getMembers_pw());
 		int res = biz.loginSelect(dto.getMembers_email(), dto.getMembers_pw());
-		System.err.println("¼º°ø¾Ø ½ÇÆÐ : " + res);
+		System.err.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : " + res);
 		 String mail_ck = biz.mail_check(dto.getMembers_email());
-			System.out.println(mail_ck+"¹¹Áö,,,,,");
+			System.out.println(mail_ck+"ï¿½ï¿½ï¿½ï¿½,,,,,");
 		if ("true".equals(mail_ck)) {
 			if (res == 0) {
-				System.out.println("·Î±×ÀÎ ½ÇÆÐ");
+				System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 				hashmap.put("login_false", res);
 			} else if (res == 1) {
-				System.out.println("·Î±×ÀÎ ¼º°ø");
+				System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 				session.setAttribute("email_login", dto.getMembers_email());
 				hashmap.put("login_true", res);
 			}
@@ -299,13 +304,13 @@ public class HomeController {
 		} else if ("false".equals(mail_ck)) {
 			hashmap.put("mail_ck_false", mail_ck);
 		} else{
-			System.out.println("·Î±×ÀÎ ½ÇÆÐ½ÇÆÐ");
+			System.out.println("ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½");
 			hashmap.put("login_false", 0);
 		}
 		return hashmap;
 	}
 
-	// ---------------ºñ¹Ð¹øÈ£ Ã¼Å©
+	// ---------------ï¿½ï¿½Ð¹ï¿½È£ Ã¼Å©
 	@RequestMapping(value = "password.do")
 	public String pass() {
 		return "password_ck";
@@ -318,32 +323,32 @@ public class HomeController {
 		if (res == 1) {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-			System.out.println("ÀÌ¸ÞÀÏ Á¸Àç" + res);
+			System.out.println("ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½" + res);
 			String to = dto.getMembers_email();
 			String host = "http://localhost:8787/board/";
 			String setfrom = "jea830@hanmail.net";
-			String tomail = dto.getMembers_email(); // ¹Þ´Â »ç¶÷ ÀÌ¸ÞÀÏ
-			String title = "[Åõ¸ÞÀÏ] ºñ¹Ð¹øÈ£¸¦ »õ·Î ¼³Á¤ÇÏ¼¼¿ä"; // Á¦¸ñ
-			String content = "´ÙÀ½ ¸µÅ©¿¡ Á¢¼ÓÇÏ¿© ÀÌ¸ÞÀÏ È®ÀÎÀ» ÁøÇàÇÏ¼¼¿ä." + "<a href='" + host + "email_complate.do?code="
-					+ new SHA256().getSHA256(to) + "'>ÀÌ¸ÞÀÏ ÀÎÁõÇÏ±â</a>"; // ³»¿ë
-			messageHelper.setFrom(setfrom); // º¸³»´Â»ç¶÷ »ý·«ÇÏ°Å³ª ÇÏ¸é Á¤»óÀÛµ¿À» ¾ÈÇÔ
-			messageHelper.setTo(tomail); // ¹Þ´Â»ç¶÷ ÀÌ¸ÞÀÏ
-			messageHelper.setSubject(title); // ¸ÞÀÏÁ¦¸ñÀº »ý·«ÀÌ °¡´ÉÇÏ´Ù
-			messageHelper.setText(content, true); // htmlÀÌ¶ó´Â ÀÇ¹Ì·Î true¸¦ ½áÁØ´Ù.
+			String tomail = dto.getMembers_email(); // ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+			String title = "[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½"; // ï¿½ï¿½ï¿½ï¿½
+			String content = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½." + "<a href='" + host + "email_complate.do?code="
+					+ new SHA256().getSHA256(to) + "'>ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½</a>"; // ï¿½ï¿½ï¿½ï¿½
+			messageHelper.setFrom(setfrom); // ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			messageHelper.setTo(tomail); // ï¿½Þ´Â»ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
+			messageHelper.setSubject(title); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+			messageHelper.setText(content, true); // htmlï¿½Ì¶ï¿½ï¿½ ï¿½Ç¹Ì·ï¿½ trueï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 			mailSender.send(message);
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('ÀÌ¸ÞÀÏÀ» È®ÀÎÇØÁÖ¼¼¿ä'); location.href='password.do';</script>");
+			out.println("<script>alert('ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½'); location.href='password.do';</script>");
 			out.flush();
 			session.setAttribute("email", dto.getMembers_email());
 		} else if (res == 0) {
 			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+			response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			PrintWriter out = null;
 			try {
 				out = response.getWriter();
-				out.println("<script>alert('¸ÞÀÏ Á¤º¸°¡ Àß¸øµÆ¾î¿ä');</script>");
+				out.println("<script>alert('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Æ¾ï¿½ï¿½');</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -362,13 +367,13 @@ public class HomeController {
 		String code = request.getParameter("code");
 		String session_mail = (String) session.getAttribute("email");
 		boolean rightCode = (new SHA256().getSHA256(session_mail).equals(code)) ? true : false;
-		if (rightCode == true) {// ÀÎÁõÄÚµå¿Í °°´Ù¸é..
+		if (rightCode == true) {// ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½..
 			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+			response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			PrintWriter out = null;
 			try {
 				out = response.getWriter();
-				out.println("<script>alert('ÀÎÁõÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù.');</script>");
+				out.println("<script>alert('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼Å¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.');</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -376,13 +381,13 @@ public class HomeController {
 			}
 			model.addAttribute("email", session_mail);
 			return "pass_change";
-		} else {// ¿©±â±îÁö ¿ÃÀÏÀº ¾øÀ»µí
+		} else {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = null;
 			try {
 				out = response.getWriter();
-				out.println("<script>alert('Àß¸øµÈ ÀÎÁõÀÌ¿¡¿ä!');</script>");
+				out.println("<script>alert('ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½!');</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -395,14 +400,14 @@ public class HomeController {
 	@RequestMapping(value = "pass_change_ck.do")
 	public String pass_change_ck(joinVO dto, HttpSession session, HttpServletResponse response, Model model) {
 		int result = biz.pass_change(dto);
-		if (result == 1) {// ºñ¹Ð¹øÈ£°¡ Àß¹Ù²î¸é
+		if (result == 1) {// ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ß¹Ù²ï¿½ï¿½
 			session.setAttribute("email", null);
 			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+			response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			PrintWriter out = null;
 			try {
 				out = response.getWriter();
-				out.println("<script>alert('ÀÌÁ¨ ²À ±â¾ïÇÏ¼¼¿ä!');</script>");
+				out.println("<script>alert('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½!');</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -410,13 +415,13 @@ public class HomeController {
 			}
 			System.out.println(result);
 			return "main";
-		} else { // ¿©±â±îÁö ¿ÃÀÏÀº ¾øÁö¸¸ È¤½Ã..¾ÈµÇ¸é
+		} else { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¤ï¿½ï¿½..ï¿½ÈµÇ¸ï¿½
 			response.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html; charset=UTF-8"); // ÇÑ±Û±úÁü ¹æÁö
+			response.setContentType("text/html; charset=UTF-8"); // ï¿½Ñ±Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			PrintWriter out = null;
 			try {
 				out = response.getWriter();
-				out.println("<script>alert('ÆÐ½º¿öµå ¿À·ù..´Ù½ÃÀû¾îÁÖ¼¼¿ä');</script>");
+				out.println("<script>alert('ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..ï¿½Ù½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½');</script>");
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
