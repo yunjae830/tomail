@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>에러에러</h1>
+	<h1>에러에러</h1><a>hi</a>
 </body>
 </html>
