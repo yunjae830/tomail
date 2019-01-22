@@ -121,8 +121,7 @@ function pcok(){
 
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav text-right">
-               <li class="nav-item active"><a class="nav-link" href="#">임시
-                     메일함</a></li>
+               <li class="nav-item active"><a class="nav-link" href="#">임시메일함</a></li>
                <li class="nav-item active"><a class="nav-link" href="#">주소록</a></li>
             </ul>
          </div>

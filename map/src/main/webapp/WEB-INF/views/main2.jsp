@@ -1,19 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+    
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>��ú��� | ������</title>
-    <meta charset="EUC-KR">
+<meta charset="UTF-8">
+<title>대시보드 | 투메일</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <!-- �۲� -->
+    <!-- 글꼴 -->
    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
    <!-- emoji -->
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
@@ -26,9 +29,45 @@
 function pcok(){
    Swal({
         type: 'error',
-        title: '����ũž�� �����մϴ�.'
+        title: '데스크탑만 가능합니다.'
       });
 }
+
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	var result = '<c:out value="${result}"/>';
+	
+	if(result === ''|| history.state){
+		return;
+	}
+	if(parseInt(result) > 0){
+		alert(result);
+	}
+	
+	history.replaceState({}, null, null);
+	
+	var actionForm = $("#actionForm");
+	
+	$(".page-item a").on("click", function(e){
+		e.preventDefault();
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.submit();
+	});
+	
+	$(".move").on("click", function(e){
+		e.preventDefault();
+		actionForm.append("<input type='hidden' name='bno' value='" + $(this).attr("href") + "'>");
+		actionForm.attr("action", "getBoard.do");
+		actionForm.submit();
+	});
+	
+});
+
+
+
 
 </script>
 
@@ -125,9 +164,9 @@ h2{
 
          <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav text-right">
-               <li class="nav-item active"><a class="nav-link" href="#">�ӽ�
-                     ������</a></li>
-               <li class="nav-item active"><a class="nav-link" href="addressForm.do">�ּҷ�</a></li>
+               <li class="nav-item active"><a class="nav-link" href="#">임시
+                     메일함</a></li>
+               <li class="nav-item active"><a class="nav-link" href="addressForm.do">주소록</a></li>
             </ul>
          </div>
          <div id="a" class="dropdown justify-content-end text-right" data-toggle="dropdown">
@@ -136,10 +175,10 @@ h2{
             </a>
             <div class="dropdown-menu">
                <a class="dropdown-item" href="#" style="margin-top: 10px;"><b>${email }</b></a><hr>
-               <a class="dropdown-item" href="#">��������</a> 
-               <a class="dropdown-item" href="#">�������</a> 
-               <a class="dropdown-item" href="#">����</a>
-               <a class="dropdown-item" href="#" onclick="location.href='logout.do'">�α׾ƿ�</a>
+               <a class="dropdown-item" href="#">계정관리</a> 
+               <a class="dropdown-item" href="#">고객사례</a> 
+               <a class="dropdown-item" href="#">도움말</a>
+               <a class="dropdown-item" href="#" onclick="location.href='logout.do'">로그아웃</a>
             </div>
          </div>
 
@@ -149,9 +188,9 @@ h2{
    <div class="container">
       <div class="row justify-content-center">
          <div align="center">
-            <h2><b>ȯ���մϴ�!</b></h2><br>
-            <p>�������� ������ ���� �̸����� �����, �߼��� �� �ִ� �����Դϴ�.<br> �� �ؾ����� �� �𸣰ڴٸ� �켱
-               �Ʒ� �ܰ踦 �����غ�����.</p>
+            <h2><b>환영합니다!</b></h2><br>
+            <p>투메일은 누구나 쉽게 이메일을 만들고, 발송할 수 있는 서비스입니다.<br> 뭘 해야할지 잘 모르겠다면 우선
+               아래 단계를 따라해보세요.</p>
          </div>
       </div><br>
       
@@ -159,58 +198,71 @@ h2{
          
          <div class="card col-sm" align="center">
             <div><img alt="" src="img/main2-1.png"></div><br>
-            <div class="btn col-sm">�ּҷ� �����</div><br>
-            <p id="mainword">�̸��� �ּ�, �̸� �� �̸�����<br>���� ����� ������ ����մϴ�.</p>
+            <div class="btn col-sm">주소록 만들기</div><br>
+            <p id="mainword">이메일 주소, 이름 등 이메일을<br>받을 사람의 정보를 등록합니다.</p>
          </div>
          <div class="card col-sm" align="center">
             <div><img alt="" src="img/main2-2.png"></div><br>
-            <div class="btn col-sm">�̸��� �����</div><br>
-            <p id="mainword">�̸��� ����, ������ ����<br>�ۼ��Ͽ� �̸����� ����ϴ�.</p>
+            <div class="btn col-sm">이메일 만들기</div><br>
+            <p id="mainword">이메일 제목, 콘텐츠 등을<br>작성하여 이메일을 만듭니다.</p>
          </div>
          <div class="card col-sm" align="center">
             <div><img alt="" src="img/main2-3.png"></div><br>
-            <div class="btn col-sm">�ӽ� ������</div><br>
-            <p id="mainword">�ӽ÷� ����� �̸����� Ȯ���Ͽ�<br>���� ����� ������ ����մϴ�.</p>
+            <div class="btn col-sm">임시 메일함</div><br>
+            <p id="mainword">임시로 저장된 이메일을 확인하여<br>받을 사람의 정보를 등록합니다.</p>
          </div>   
       </div>
    </div><br><br><br>
 
    <div class="container">
       <div>
-         <div><h5> ���� �̷� Ȯ���ϱ�</h5> </div><br>
+         <div><h5> 보낸 이력 확인하기</h5> </div><br>
       </div>
       <div class="mobileonly " align="center">
-         <button class="btn" style="background-color: #FD3369; margin: 30px 0 30px 0;color: white;" onclick="pcok();">pc���� Ȯ��</button>
+         <button class="btn" style="background-color: #FD3369; margin: 30px 0 30px 0;color: white;" onclick="pcok();">pc에서 확인</button>
       </div>
       <table class="table">
          <thead class="thead-light">
             <tr>
-               <th>����</th>
-               <th>�����ּ�</th>
-               <th>��¥</th>
+ 				<th> # </th>           
+               	<th>제목</th>
+               	<th>메일주소</th>
+               	<th>보낸 날짜</th>
             </tr>
          </thead>
          <tbody>
+         	<c:forEach items="${list }" var="board">
             <tr>
-               <td>�ƴϾƾƾƾƾƾƾƤ��ƾƾƾ�</td>
-               <td>swan9405@naver.com</td>
-               <td>1994.05.01</td>
+               <td><c:out value="${board.bno }"/></td>
+               <td><a class="move" href="${board.bno }"><c:out value="${board.title }"/></a></td>
+               <td><c:out value="${board.receiver }"/></td>
+               <td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate }"/></td>
             </tr>
-            <tr>
-               <td>�ƴϾƾƾƾƾƾƾƤ��ƾƾƾ�</td>
-               <td>swan9405@naver.com</td>
-               <td>1994.05.01</td>
-            </tr>
-            <tr>
-               <td>�ƴϾƾƾƾƾƾƾƤ��ƾƾƾ�</td>
-               <td>swan9405@naver.com</td>
-               <td>1994.05.01</td>
-            </tr>
+            </c:forEach>
          </tbody>
       </table>
 
 
-   </div><br><br><br>
+   </div>
+   <div class="container">
+   	<ul class="pagination">
+   		<c:if test="${pageMaker.prev }">
+   			<li class="page-item"><a class="page-link" href="${pageMaker.startPage -1 }">Previous</a></li>
+   		</c:if>
+   		<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+			<li class="page-item <c:if test="${pageMaker.cri.pageNum == num }">active</c:if>">
+			<a class="page-link" href="${num }">${num }</a></li>
+   		</c:forEach>
+   		<c:if test="${pageMaker.next }">
+   			<li class="page-item"><a class="page-link" href="${pageMaker.endPage + 1 }">Next</a></li>
+   		</c:if>
+   	</ul>
+   	<form id="actionForm" action="getList.do" method="get">
+   		<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum }"/>
+   		<input type="hidden" name="amount" value="${pageMaker.cri.amount }"/>
+   	</form>
+   
+   </div>
 
 
    <%@ include file="kakaoopenchat.jsp"  %>  

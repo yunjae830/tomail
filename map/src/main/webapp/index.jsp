@@ -1,24 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<a href="map.do">Áöµµ</a>
+	<a href="map.do">ì§€ë„</a>
 	<br/>
-	<a href="mailForm.do">¸ŞÀÏº¸³»±â</a>
+	<a href="mailForm.do">ë©”ì¼ë³´ë‚´ê¸°</a>
 	<br/>
-	<a href="joinform.do">È¸¿ø°¡ÀÔ</a>
+	<a href="joinform.do">íšŒì›ê°€ì…</a>
 	<br/>
-	<a href="checkbox.do">Ã¼Å©¹Ú½º</a>
+	<a href="checkbox.do">ì²´í¬ë°•ìŠ¤</a>
 	<br/>
-	<a href="loginform.do">·Î±×ÀÎ</a>
+	<a href="loginform.do">ë¡œê·¸ì¸</a>
 	<br/>
-	<a href="main.do">¸ŞÀÎ</a>
+	<a href="main.do">ë©”ì¸</a>
 	<br/>
-	<a href="test.do">Å×½ºÆ®</a>
+	<a href="test.do">í…ŒìŠ¤íŠ¸</a>
+	<br>
+	<a href="address.do">Address</a>
+	<br>
+	<a href="getList.do">Get List</a>
 </body>
 </html>
