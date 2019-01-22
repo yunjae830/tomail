@@ -42,4 +42,9 @@ public class BoardDaoImpl implements BoardDao{
 		return sql.delete(namespace + "delete", bno) ==1;
 	}
 
+	@Override
+	public int getTotal(Criteria cri) {
+		return sql.selectOne(namespace + "getTotalCount", cri);
+	}
+
 }

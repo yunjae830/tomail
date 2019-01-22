@@ -14,5 +14,6 @@ public interface BoardDao {
 	void addBoard(BoardDto dto);
 	boolean updateBoard(BoardDto dto);
 	boolean deleteBoard(int bno);
+	int getTotal(Criteria cri);
 	
 }

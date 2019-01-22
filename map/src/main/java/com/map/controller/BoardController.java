@@ -24,7 +24,8 @@ public class BoardController {
 	@RequestMapping("getList.do")
 	public String getList(Criteria cri, Model model) {
 		model.addAttribute("list", biz.getList(cri));
-		model.addAttribute("pageMaker", new PageDto(cri, 100));
+		int total = biz.getTotal(cri);
+		model.addAttribute("pageMaker", new PageDto(cri, total));
 		return "getList";
 	}
 	
@@ -52,6 +53,8 @@ public class BoardController {
 			
 			rttr.addAttribute("pageNum", cri.getPageNum());
 			rttr.addAttribute("amount", cri.getAmount());
+			rttr.addAttribute("type", cri.getType());
+			rttr.addAttribute("keyword", cri.getKeyword());
 			
 		}
 		
@@ -65,6 +68,8 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		return "redirect: /getList.do";
 	}

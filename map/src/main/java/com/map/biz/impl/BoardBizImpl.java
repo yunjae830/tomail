@@ -41,4 +41,9 @@ public class BoardBizImpl implements BoardBiz{
 		return dao.deleteBoard(bno);
 	}
 
+	@Override
+	public int getTotal(Criteria cri) {
+		return dao.getTotal(cri);
+	}
+
 }

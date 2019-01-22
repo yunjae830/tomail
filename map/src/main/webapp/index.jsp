@@ -23,6 +23,6 @@
 	<br>
 	<a href="address.do">Address</a>
 	<br>
-	<a href="getList.do">Get List</a>
+	<a href="mailbox/getList.do">Get List</a>
 </body>
 </html>
