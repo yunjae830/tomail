@@ -8,7 +8,7 @@ public interface joinBiz {
 	public int loginSelect(String email,String pw);
 	public int joinCheck(String email, String pw);
 	public int pass_ck(String email);
-	public void pass_complate(String email);//가입시 사용
+	public void pass_complate(String email);
 	public int pass_change(joinVO dto);
 	public String mail_check(String email);
 }

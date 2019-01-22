@@ -20,5 +20,7 @@
 	<a href="main.do">메인</a>
 	<br/>
 	<a href="test.do">테스트</a>
+	<br/>
+	<a href="template.do">템플릿</a>
 </body>
 </html>

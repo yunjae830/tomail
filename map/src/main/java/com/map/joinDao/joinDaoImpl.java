@@ -31,9 +31,8 @@ public class joinDaoImpl implements joinDao {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("디비 비번값: "+select_pw+"\t 내가보낸 비번값 : " + pw);
 		if(pw.equals(select_pw)) {
-			System.out.println("성공");
+			System.out.println("占쏙옙占쏙옙");
 			return 1;
 		}else {
 			return 0;
@@ -50,9 +49,8 @@ public class joinDaoImpl implements joinDao {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("디비 이메일 값: "+select_email+"\t 내가보낸 이메일 값 : " + email);
 		if(email.equals(select_email)) {
-			System.out.println("중복");
+			System.out.println("占쌩븝옙");
 			return 0;
 		}else {
 			return 1;
@@ -69,9 +67,8 @@ public class joinDaoImpl implements joinDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("디비 이메일 값 : " + seach_email + "\t 내가보낸 이메일 값 : " + email);
 		if(email.equals(seach_email)) {
-			System.out.println("존재");
+			System.out.println("占쏙옙占쏙옙");
 			return 1;
 		}else {
 			return 0;
@@ -86,7 +83,6 @@ public class joinDaoImpl implements joinDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("내가 보낸 이메일 : "+ email + "\t 디비 성공여부 : "+res);
 	}
 
 	@Override
